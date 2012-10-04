@@ -11,8 +11,8 @@ import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
 import com.vaadin.server.SessionInitListener;
 import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinServiceSession;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.server.VaadinSession;
 
 @WebServlet(urlPatterns = "/*")
 public class CDIAppServlet extends VaadinServlet {
@@ -34,13 +34,13 @@ public class CDIAppServlet extends VaadinServlet {
 			public void sessionInit(
 					SessionInitEvent vaadinSessionInitializeEvent)
 					throws ServiceException {
-				VaadinSession vaadinSession = vaadinSessionInitializeEvent
+				VaadinServiceSession vaadinSession = vaadinSessionInitializeEvent
 						.getSession();
 				VaadinService service = vaadinSessionInitializeEvent
 						.getService();
 				logger().info("sessionInitialized");
 				logger().info("Registering ui CDIUIProvider: " + cdiUIProvider);
-				service.addUIProvider(vaadinSession, cdiUIProvider);
+				vaadinSession.addUIProvider(cdiUIProvider);
 			}
 		});
 	}
