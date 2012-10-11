@@ -5,28 +5,30 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import com.vaadin.cdi.VaadinView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 import de.sebastian.CDITest.second.SecondWindow;
 
-
-public class MainWindow extends Window implements Serializable {
+@VaadinView
+public class MainWindow extends CustomComponent implements Serializable {
 	
-	private UI ui;
 	private SecondWindow secWin;
+	private VerticalLayout vLayout;
 	
 	@Inject
-	public MainWindow(UI ui, SecondWindow secWin) {
-		this.ui = ui;
+	public MainWindow(SecondWindow secWin) {
 		this.secWin = secWin;
 	}
 	
 	@PostConstruct
 	public void initialize() {
+		vLayout = new VerticalLayout();
+		setCompositionRoot(vLayout);
 		setSizeFull();
 		setCaption("First Window");
 		
@@ -34,11 +36,11 @@ public class MainWindow extends Window implements Serializable {
 	}
 	
 	public void go(){
-		ui.addWindow(this);
+		UI.getCurrent().removeAllComponents();
+		UI.getCurrent().addComponent(this);
 	}
 
 	private void layout() {
-		VerticalLayout vLayout = new VerticalLayout();
 		
 		Button btn1 = new Button("First Button", new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
@@ -47,13 +49,12 @@ public class MainWindow extends Window implements Serializable {
 		});
 		
 		vLayout.addComponent(btn1);
-		setContent(vLayout);
 		
 	}
 	
 	public void openNewWindow() {
 		
-		ui.addWindow(secWin);
+		UI.getCurrent().addWindow(secWin);
 	}
 
 }

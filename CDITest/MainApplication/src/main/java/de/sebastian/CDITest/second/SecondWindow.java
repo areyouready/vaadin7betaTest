@@ -14,11 +14,8 @@ import com.vaadin.ui.Window;
 
 public class SecondWindow extends Window implements Serializable{
 	
-	private UI ui;
-	
-	@Inject
-	public SecondWindow(UI ui) {
-		this.ui = ui;
+
+	public SecondWindow() {
 	}
 	
 	@PostConstruct
@@ -50,7 +47,7 @@ public class SecondWindow extends Window implements Serializable{
 	}
 
 	private void closeWindow() {
-		ui.removeWindow(this);
+		UI.getCurrent().removeWindow(this);
 		
 	}
 
