@@ -10,6 +10,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import de.sebastian.CDITest.backend.TestBackend;
 import de.sebastian.CDITest.main.MainWindow;
 
 @Theme("runo")
@@ -19,10 +20,12 @@ import de.sebastian.CDITest.main.MainWindow;
 public class CDIUI extends UI {
 	
 	private MainWindow mainWindow;
+	private TestBackend backend;
     
 	@Inject
-	public CDIUI(MainWindow mainWindow) {
+	public CDIUI(MainWindow mainWindow, TestBackend backend) {
 		this.mainWindow = mainWindow;
+		this.backend = backend;
 	}
 	
 
@@ -33,6 +36,7 @@ public class CDIUI extends UI {
     	Label label = new Label("Das HauptUI");
     	vLayout.addComponent(label);
     	addComponent(vLayout);
+    	backend.saveUser("sebastian");
     	
     	mainWindow.go();
     }
